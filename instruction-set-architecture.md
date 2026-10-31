@@ -104,12 +104,10 @@ $$
 $$
 \begin{aligned}
 v_{t_x}(x)v_{t_y}(y)
-={}& xy \\
-&- 2^n\bigl(
-t_x \cdot \mathrm{msb}(x) \cdot y
-+ t_y \cdot \mathrm{msb}(y) \cdot x
-\bigr) \\
-&+ 2^{2n}t_xt_y\mathrm{msb}(x)\mathrm{msb}(y)
+={}& xy - 2^n\bigl( \\
+&\quad t_x \cdot \mathrm{msb}(x) \cdot y + \\
+&\quad t_y \cdot \mathrm{msb}(y) \cdot x \bigr) + \\
+&\quad 2^{2n}t_xt_y\mathrm{msb}(x)\mathrm{msb}(y)
 \end{aligned}
 \tag{3}
 $$
@@ -143,9 +141,7 @@ $$
 H_{t_x,t_y}
 =
 \left(
-H_u
-- t_x \cdot \mathrm{msb}(x) \cdot y
-- t_y \cdot \mathrm{msb}(y) \cdot x
+H_u - t_x \cdot \mathrm{msb}(x) \cdot y - t_y \cdot \mathrm{msb}(y) \cdot x
 \right)
 \bmod 2^n
 \tag{7}
