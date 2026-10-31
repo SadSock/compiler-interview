@@ -88,8 +88,7 @@ L = v_{t_x}(x)v_{t_y}(y) \bmod 2^n
 $$
 
 $$
-H_{t_x,t_y}
-=
+H_{t_x,t_y} =
 \left\lfloor
 \frac{
 \bigl(v_{t_x}(x)v_{t_y}(y) \bmod 2^{2n}\bigr)
@@ -103,8 +102,7 @@ $$
 
 $$
 \begin{aligned}
-v_{t_x}(x)v_{t_y}(y)
-={}& xy - 2^n\bigl( \\
+v_{t_x}(x)v_{t_y}(y) ={}& xy - 2^n\bigl( \\
 &\quad t_x \cdot \mathrm{msb}(x) \cdot y + \\
 &\quad t_y \cdot \mathrm{msb}(y) \cdot x \bigr) + \\
 &\quad 2^{2n}t_xt_y\mathrm{msb}(x)\mathrm{msb}(y)
@@ -138,8 +136,7 @@ $$
 将式（6）代入式（3），并按式（2）取高 n 位，可得：
 
 $$
-H_{t_x,t_y}
-=
+H_{t_x,t_y} =
 \left(
 H_u - t_x \cdot \mathrm{msb}(x) \cdot y - t_y \cdot \mathrm{msb}(y) \cdot x
 \right)
