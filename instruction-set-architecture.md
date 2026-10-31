@@ -162,6 +162,58 @@ $$
 
 RISC-V 将 `MULHSU` 定义为第一个操作数按有符号、第二个操作数按无符号进行乘法并返回高半部分；因此，mixed signedness 且第二个操作数有符号时，需要交换两个操作数。[3]
 
+## 问题 5
+
+在 RV32IM 上，`MUL` 返回两个 32 位操作数乘积的低 32 位，`MULHU` 返回 unsigned × unsigned 乘积的高 32 位，`ADD` 的结果按模 $2^{32}$ 截断。
+
+考虑以下 LLVM IR：
+
+```llvm
+%zx = zext i32 %x to i64
+%p = mul i64 %zx, %y
+```
+
+设 `%x` 位于寄存器 `x`；`%y` 的低、高 32 位分别位于 `y_lo`、`y_hi`；结果 `%p` 的低、高 32 位分别写入 `r_lo`、`r_hi`。仅使用 `MUL`、`MULHU` 与 `ADD`，写出计算 `%p` 的 RV32IM 指令序列，并说明为何计算 `x * y_hi` 时只需 `MUL`。
+
+### 答案
+
+指令序列为：
+
+```asm
+mul    r_lo, x,   y_lo   # x * y_lo 的低 32 位
+mulhu  r_hi, x,   y_lo   # x * y_lo 的高 32 位
+mul    t0,   x,   y_hi   # x * y_hi 的低 32 位
+add    r_hi, r_hi, t0
+```
+
+
+## 问题 6
+
+沿用问题 5 的寄存器约定。`MULHSU` 返回 signed × unsigned 乘积的高 32 位。
+
+考虑以下 LLVM IR：
+
+```llvm
+%sx = sext i32 %x to i64
+%p = mul i64 %sx, %y
+```
+
+仅使用 `MUL`、`MULHSU` 与 `ADD`，写出计算 `%p` 的 RV32IM 指令序列，并说明第二条乘法为何必须使用 `MULHSU`，而不能使用 `MULH` 或 `MULHU`。
+
+### 答案
+
+指令序列为：
+
+```asm
+mul     r_lo, x,   y_lo  # sext(x) * y_lo 的低 32 位
+mulhsu  r_hi, x,   y_lo  # sext(x) * y_lo 的高 32 位
+mul     t0,   x,   y_hi  # sext(x) * y_hi 的低 32 位
+add     r_hi, r_hi, t0
+```
+
+
+
+
 ## 参考文献
 
 [1] Intel Corporation. *Intel® 64 and IA-32 Architectures Software Developer’s Manual, Volume 1: Basic Architecture*, §3.4.3.1 “Status Flags” [M/OL]. 2026-09.
