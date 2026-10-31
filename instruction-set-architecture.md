@@ -25,7 +25,7 @@
 
 ## 问题 2
 
-设 $x$ 是一个 n 位位模式按无符号二进制解释得到的整数，因此 $0 \le x < 2^n$。令 $\operatorname{msb}(x) \in \{0, 1\}$ 为 $x$ 的最高位。令 $t \in \{0, 1\}$ 表示该位模式的解释方式：当 $t = 0$ 时，按无符号整数解释；当 $t = 1$ 时，按 n 位二补码有符号整数解释。记 $v_t(x)$ 为该位模式在对应解释下表示的整数值。
+设 $x$ 是一个 n 位位模式按无符号二进制解释得到的整数，因此 $0 \le x < 2^n$。令 $\mathrm{msb}(x) \in \{0, 1\}$ 为 $x$ 的最高位。令 $t \in \{0, 1\}$ 表示该位模式的解释方式：当 $t = 0$ 时，按无符号整数解释；当 $t = 1$ 时，按 n 位二补码有符号整数解释。记 $v_t(x)$ 为该位模式在对应解释下表示的整数值。
 
 已知 $v_t(x)$，请写出 $x$ 的统一计算公式。
 
@@ -46,7 +46,7 @@ $$
 ### 答案
 
 $$
-v_t(x) = x - t \cdot \operatorname{msb}(x) \cdot 2^n
+v_t(x) = x - t \cdot \mathrm{msb}(x) \cdot 2^n
 \tag{1}
 $$
 
@@ -62,8 +62,8 @@ $$
 $$
 v_1(x) =
 \begin{cases}
-x, & \operatorname{msb}(x) = 0 \\
-x - 2^n, & \operatorname{msb}(x) = 1
+x, & \mathrm{msb}(x) = 0 \\
+x - 2^n, & \mathrm{msb}(x) = 1
 \end{cases}
 \tag{3}
 $$
@@ -106,10 +106,10 @@ $$
 v_{t_x}(x)v_{t_y}(y)
 ={}& xy \\
 &- 2^n\bigl(
-t_x \cdot \operatorname{msb}(x) \cdot y
-+ t_y \cdot \operatorname{msb}(y) \cdot x
+t_x \cdot \mathrm{msb}(x) \cdot y
++ t_y \cdot \mathrm{msb}(y) \cdot x
 \bigr) \\
-&+ 2^{2n}t_xt_y\operatorname{msb}(x)\operatorname{msb}(y)
+&+ 2^{2n}t_xt_y\mathrm{msb}(x)\mathrm{msb}(y)
 \end{aligned}
 \tag{3}
 $$
@@ -144,8 +144,8 @@ H_{t_x,t_y}
 =
 \left(
 H_u
-- t_x \cdot \operatorname{msb}(x) \cdot y
-- t_y \cdot \operatorname{msb}(y) \cdot x
+- t_x \cdot \mathrm{msb}(x) \cdot y
+- t_y \cdot \mathrm{msb}(y) \cdot x
 \right)
 \bmod 2^n
 \tag{7}
@@ -156,9 +156,9 @@ $$
 | 操作数解释 | 高 n 位 | RISC-V 指令 |
 | --- | --- | --- |
 | unsigned × unsigned | $H_u$ | `MULHU` |
-| signed × unsigned | $H_u - \operatorname{msb}(x) \cdot y \pmod {2^n}$ | `MULHSU x, y` |
-| unsigned × signed | $H_u - \operatorname{msb}(y) \cdot x \pmod {2^n}$ | 交换操作数后使用 `MULHSU y, x` |
-| signed × signed | $H_u - \operatorname{msb}(x) \cdot y - \operatorname{msb}(y) \cdot x \pmod {2^n}$ | `MULH` |
+| signed × unsigned | $H_u - \mathrm{msb}(x) \cdot y \pmod {2^n}$ | `MULHSU x, y` |
+| unsigned × signed | $H_u - \mathrm{msb}(y) \cdot x \pmod {2^n}$ | 交换操作数后使用 `MULHSU y, x` |
+| signed × signed | $H_u - \mathrm{msb}(x) \cdot y - \mathrm{msb}(y) \cdot x \pmod {2^n}$ | `MULH` |
 
 RISC-V 将 `MULHSU` 定义为第一个操作数按有符号、第二个操作数按无符号进行乘法并返回高半部分；因此，mixed signedness 且第二个操作数有符号时，需要交换两个操作数。[3]
 
